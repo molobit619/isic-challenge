@@ -9,3 +9,7 @@ body {
 #container {
   min-height: calc(100vh - 100px);
 }
+
+#image-preview {
+    border: 1px solid var(--bs-blue);
+}

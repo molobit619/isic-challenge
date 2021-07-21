@@ -2,7 +2,7 @@
 {%block title%}Melanoma Detection{%endblock%}
 {%block content%}
     <div class="jumbotron text-center">
-        <h1 class="display-3">ISIC Challenge: Smart Detection of Melanoma</h1>
+        <h1 class="display-3">Skin Lesion Prediction: Benign or Malignant?</h1>
     </div>
     <div class="row">
         <div class="col-1">&nbsp;</div>
@@ -15,23 +15,32 @@
 
             <div class="row">
                 <div class="col">
-                    <div class="row">
-                        <div class="col-6">
-                            <ul>
-                                <li><a href="#">some text here</a></li>
-                            </ul>
+                    <div class="row" id="content-row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row mx-auto">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="skin-lesion-image">Upload your skin lesions:</label><br>
+                                        <input type="file" class="form-control-file" id="skin-lesion-image">
+                                    </div>
+                                <div>
+                            </div>
                             <div class="row">
-                                <div class="col-6">
-                                    <h5>Resources:</h5>
-                                    <ul class="list-group">
-                                        <li class="list-group-item"><a href="https://github.com/molobit619/isic-challenge.git">Github</a></li>
-                                        <li class="list-group-item"><a href="https://jquery.com/">jQuery</a></li>
-                                    </ul>
+                                <div class="col">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="col" id="image-preview-container"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">&nbsp;</div>
+                            </div> </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-primary">Predict</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            &nbsp;
                         </div>
                     </div>
                 </div>
@@ -46,6 +55,21 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script> 
         $(document).ready(function() {
+
+            $('#skin-lesion-image').on('change', (event) => {
+                const fileObj = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.setAttribute('style', 'width:300px;');
+
+                    $('#image-preview-container').html(img);
+                };
+                reader.readAsDataURL(fileObj);
+
+                console.log('fileObj: ', fileObj);
+            });
         });
     </script>
 {%endblock%}
