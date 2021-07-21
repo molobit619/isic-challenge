@@ -13,3 +13,7 @@ body {
 #image-preview {
     border: 1px solid var(--bs-blue);
 }
+
+#predict {
+    display: none;
+}
