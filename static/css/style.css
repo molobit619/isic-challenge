@@ -17,3 +17,14 @@ body {
 #predict {
     display: none;
 }
+
+#prediction {
+    display: none;
+    padding: 3%;
+    color: var(--bs-primary);
+}
+
+#prediction-details {
+    display: none;
+    padding: 3%;
+}

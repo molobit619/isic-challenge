@@ -25,6 +25,15 @@
                                                     <input type="file" class="form-control-file" id="skin-lesion-image" name="skin-lesion-image">
                                             </div>
                                         </div>
+                                        <div class="col-3 col-md-3">
+                                            <div class="form-group">
+                                                <select class="form-select" aria-label="cnn model" id="cnn_model">
+                                                    <option value="model1" selected>Model 1</option>
+                                                    <option value="model2">Model 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">&nbsp;</div>
                                     </div>
                                     <div class="row">
                                         <div class="col">&nbsp;</div>
@@ -40,6 +49,16 @@
                                     <div class="row">
                                         <div class="col">
                                             <input id="predict" class="btn btn-primary" type="submit" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h1 class="display-1" id="prediction">&nbsp;</h1>
+                                        </div>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="col">
+                                            <h3 id="predition-details">&nbsp;</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -70,16 +89,22 @@
                     /* show predict button*/
                     $('#predict').show();
                 };
+
                 reader.readAsDataURL(fileObj);
 
-                console.log('fileObj: ', fileObj);
             });
 
             $('#predict').on('click', (event) => {
                 event.preventDefault();
                 $.post({
-                    url: '/process-image',
+                    url: '/process-image' + '?model=' + $('#cnn_model').val(),
                     data: $('#image-preview-container img').attr('src'),
+                    success: (response) => {
+                        if (response.text_prediction != undefined) {
+                            $('#prediction').html(response.text_prediction).show();
+                            $('#predition-details').html(response.prediction).show();
+                        }
+                    }
                 });
             });
         });
