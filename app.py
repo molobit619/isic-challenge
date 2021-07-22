@@ -3,23 +3,40 @@ import numpy as np
 from pprint import pprint
 import io
 import base64
-import cv
-import tempfile
+import cv2 as cv
+import numpy as np
+import os
 
 app = Flask(__name__)
 
 @app.route("/process-image", methods=['POST'])
 def predict_image():
     if request.method == 'POST': 
-        #pprint(base64.decodestring(request.form))
-        pprint( base64.decodestring(request.get_data()[22:]) )
-        with tempfile.TemporaryFile() as fp:
-            fp.write( base64.decodestring(request.get_data()[22:]) )
-            fp.seek(0)
-            img = cv.imread(fp)
-        return make_response(jsonify({'wtf': 'is post request'}))
+        # first 22 characters general format [data:image/jpeg;base64]
+        file_payload = request.get_data()[22:].decode()
+        file_token = request.get_data()[:22].decode();
+
+        im_bytes = base64.b64decode(file_payload)
+        im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+        img = cv.imdecode(im_arr, flags=cv.IMREAD_COLOR)
+        
+        #todo
+        load_model(None)
+        resize_image(img)
+        predict_image(img)
+        
+        return make_response(jsonify({'file_token': file_token, 'img_shape': img.shape}))
     else:
         return make_response(jsonify({'wtf': 'wtf'}))
+
+def resize_image(img):
+    pass
+
+def load_model(model):
+    pass
+
+def predict_image(img):
+    pass
 
 @app.route("/")
 def index():

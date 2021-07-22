@@ -15,36 +15,36 @@
 
             <div class="row">
                 <div class="col">
-                    <div class="row" id="content-row">
-                        <div class="col-md-6 col-sm-6">
-                            <div class="row mx-auto">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <form id="skin-lesion-data">
-                                            <label for="skin-lesion-image">Upload your skin lesions:</label><br>
-                                            <input type="file" class="form-control-file" id="skin-lesion-image" name="skin-lesion-image">
-                                        </form>
+                    <form id="skin-lesion-data" action="/process-image" method="POST">
+                            <div class="row" id="content-row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row mx-auto">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                    <label for="skin-lesion-image">Upload your skin lesions:</label><br>
+                                                    <input type="file" class="form-control-file" id="skin-lesion-image" name="skin-lesion-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">&nbsp;</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col" id="image-preview-container"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">&nbsp;</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input id="predict" class="btn btn-primary" type="submit" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">&nbsp;</div>
-                            </div>
-                            <div class="row">
-                                <div class="col" id="image-preview-container"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col">&nbsp;</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <div class="row">
-                                <div class="col">
-                                    <button id="predict" class="btn btn-primary">Predict</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -77,10 +77,9 @@
 
             $('#predict').on('click', (event) => {
                 event.preventDefault();
-                $.ajax({
-                    type: 'POST',
+                $.post({
                     url: '/process-image',
-                    data: $('#image-preview-container img').attr('src')
+                    data: $('#image-preview-container img').attr('src'),
                 });
             });
         });
