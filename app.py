@@ -40,7 +40,14 @@ def predict_image():
         im_bytes = base64.b64decode(file_payload)
         img_arr = np.frombuffer(im_bytes, dtype=np.uint8)
         
-        model_details = trained_models['model1'];
+        model_type = request.args.get('model')
+
+        model_details = None
+        if model_type in trained_models:
+            model_details = trained_models[model_type];
+        else:
+            model_details = trained_models['model1'];
+
         model = model_details['obj']
 
         img = model_details['img_read'](img_arr)
